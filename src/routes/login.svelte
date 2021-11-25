@@ -80,6 +80,10 @@
 	</div>
 </div>
 
+<svelte:head>
+	<title>Login | EHLA Zoom class</title>
+</svelte:head>
+
 <style>
     input {
         @apply border border-gray-300 py-3 px-4 rounded;
