@@ -3,6 +3,8 @@
 	import timezone from "dayjs/plugin/timezone.js"
 	import isBetween from 'dayjs/plugin/isBetween.js'
 	import dayjs from 'dayjs'
+	import {sentry} from "$lib/sentry";
+
 	dayjs.extend(isBetween)
 	dayjs.extend(utc)
 	dayjs.extend(timezone)
@@ -114,7 +116,7 @@
 			</div>
 		</div>
 		{#if zoom_button_active}
-			<a target="_blank" href={z.zoom_link} class="block bg-blue-500 hover:bg-blue-700 text-white mt-4 text-center px-12 py-2 rounded font-bold w-full">
+			<a on:click={() => {sentry.log('User clicked zoom link')}} target="_blank" href={z.zoom_link} class="block bg-blue-500 hover:bg-blue-700 text-white mt-4 text-center px-12 py-2 rounded font-bold w-full">
 				<p>Join the class now</p>
 			</a>
 		{:else if !expired}
