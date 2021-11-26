@@ -17,7 +17,7 @@
 	let now = dayjs(new Date())
 	const not_set = !z.start_date
 	const day_diff = start.diff(now, 'day')
-	const is_today = day_diff === 0
+	const is_today = start.isToday()
 
 	let in_progress
 	let expired
@@ -25,9 +25,10 @@
 	let hour_diff
 	let min_diff
 	let within_hour
+	let within_5_min
 
 	$: status = not_set ? 'not_set' : expired ? 'expired' : in_progress ? 'in_progress' : within_hour ? 'in_hour' : is_today ? 'today' : 'coming_soon'
-	$: zoom_button_active = (within_hour || in_progress)
+	$: zoom_button_active = (within_5_min || in_progress)
 
 	$: start_time_hk = dayjs.utc(z.start_date).tz('Asia/Hong_Kong')
 	$: end_time_hk = start_time_hk ? start_time_hk.add(z.duration, 'minutes') : null
@@ -50,7 +51,8 @@
 		min_diff = start_time_hk.diff(now, 'minute') % 60
 		expired = now.isAfter(end_time_hk)
 		in_progress = now.isBetween(start_time_hk, end_time_hk)
-		within_hour = start_time_hk.diff(now, 'minute') < 60
+		within_hour = start_time_hk.diff(now, 'minute') <= 60
+		within_5_min = start_time_hk.diff(now, 'minute') <= 5
 		not_yet_started = now.isBefore(start_time_hk)
 	}
 
@@ -119,10 +121,13 @@
 			<a on:click={() => {sentry.log('User clicked zoom link')}} target="_blank" href={z.zoom_link} class="block bg-blue-500 hover:bg-blue-700 text-white mt-4 text-center px-12 py-2 rounded font-bold w-full">
 				<p>Join the class now</p>
 			</a>
-		{:else if !expired}
-			<button disabled class="bg-gray-200 text-gray-300 mt-4 text-center px-12 py-2 rounded font-bold w-full">
-				Join the class now
-			</button>
+		{:else if is_today}
+			<div class="mt-4">
+				<button disabled class="bg-gray-100 text-gray-400 text-center px-2 py-2 rounded w-full">
+					Classroom opens in
+					<span class="font-bold border-b-2 border-current">{min_diff - 5}</span> minutes
+				</button>
+			</div>
 		{/if}
 	</div>
 </div>
