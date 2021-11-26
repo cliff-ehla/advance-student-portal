@@ -17,6 +17,8 @@
 	import {goto} from '$app/navigation'
 	import Icon from '$lib/ui/icon.svelte'
 	import {getStores} from "$app/stores";
+	import {sentry} from "$lib/sentry";
+
 	let env = import.meta.env.VITE_ENV
 	const {session} = getStores()
 
@@ -38,6 +40,10 @@
 					username: data.username,
 					nickname: data.nickname
 				}
+			})
+			sentry.setUser({
+				username: data.username,
+				nickname: data.nickname
 			})
 			goto('/')
 		} else {

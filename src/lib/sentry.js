@@ -22,9 +22,24 @@ const sentry = (() => {
 		}
 	}
 
+	const setUser = ({username, nickname}) => {
+		Sentry.setUser({
+			username,
+			nickname
+		})
+	}
+
+	const clearUser = () => {
+		Sentry.configureScope(scope => {
+			scope.setUser(null)
+		})
+	}
+
 	return {
 		log,
-		init
+		init,
+		setUser,
+		clearUser
 	}
 })()
 

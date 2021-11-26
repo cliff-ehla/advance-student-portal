@@ -15,6 +15,7 @@
 
 <script>
 	export let user_info
+	import {sentry} from "$lib/sentry";
 </script>
 
 <div class="container py-8">
@@ -23,7 +24,7 @@
 			<p class="text-sm text-gray-400">Username</p>
 			<p>{user_info.username}</p>
 		</div>
-		<div class="p-4 border-b border-gray-200">
+		<div on:click={() => {sentry.log('testing click')}} class="p-4 border-b border-gray-200">
 			<p class="text-sm text-gray-400">Nickname</p>
 			<p>{user_info.nickname}</p>
 		</div>
