@@ -61,25 +61,25 @@
 <div class="md:py-12 md:px-8">
 	<div class="max-w-screen-sm mx-auto bg-white md:rounded-lg py-8 md:py-16 px-4 md:px-36 md:border md:border-gray-300">
 		<div>
-			<h1 class="font-bold mb-8 text-t1 text-center text-gray-500">EHLA Student Portal</h1>
+			<h1 class="font-bold mb-8 text-xl text-center text-gray-500">學生網上課堂登入</h1>
 			<div class="w-32 h-32 mb-8 border border-gray-300 rounded-full mx-auto flex items-center justify-center">
 				<Icon name="avatar" className="w-20 text-gray-300"/>
 			</div>
 			<div class="mb-4">
-				<input on:input={() => {error = false}} type="text" placeholder="Username" class="form-input w-full bg-gray-50" bind:value={username}>
+				<input on:input={() => {error = false}} type="text" placeholder="賬戶名稱" class="form-input w-full bg-gray-50" bind:value={username}>
 			</div>
 			<div>
-				<input on:input={() => {error = false}} type="password" placeholder="Password" class="form-input w-full bg-gray-50" bind:value={password}>
+				<input on:input={() => {error = false}} type="password" placeholder="密碼" class="form-input w-full bg-gray-50" bind:value={password}>
 			</div>
 			{#if error}
-				<p class="text-red-500 py-2">Password and username not match</p>
+				<p class="text-red-500 py-2">賬戶名稱與密碼不符合</p>
 			{/if}
 			<div class="mt-6">
-				<button on:click={onLogin} class="{loading ? 'bg-gray-300 text-white' : 'bg-blue-500 text-white'} w-full font-bold rounded py-3 px-8">Log in</button>
+				<button on:click={onLogin} class="{loading ? 'bg-gray-300 text-white' : 'bg-blue-500 text-white'} w-full font-bold rounded py-3 px-8">登入</button>
 			</div>
 			<div class="mt-8">
-				<p class="text-xs text-gray-400 text-center">
-					Whatsapp us if you encounter any difficulties: <b>5578 0218</b>
+				<p class="text-xs text-gray-500 text-center">
+					若登入時遇到因難，請與我們的客服聯絡 <b>5578 0218</b>
 				</p>
 			</div>
 		</div>

@@ -39,14 +39,14 @@
 							</div>
 						{:else}
 							<div class="p-8 bg-white rounded">
-								<p>No class</p>
+								<p>没有課堂</p>
 							</div>
 						{/if}
 					</div>
 				{/each}
 			{:else}
 				<div class="p-8">
-					Loading...
+					載入中...
 				</div>
 			{/if}
 		</div>

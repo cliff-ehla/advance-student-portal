@@ -39,7 +39,7 @@
 	const status_to_style = {
 		'not_set': 'bg-blue-100 text-red-500',
 		'expired': 'bg-gray-200 text-gray-400',
-		'in_progress': 'bg-yellow-500 text-black',
+		'in_progress': 'bg-yellow-600 text-white',
 		'in_hour': 'bg-green-500 text-white',
 		'today': 'bg-green-500 text-white',
 		'coming_soon': 'bg-blue-100 text-blue-500'
@@ -52,7 +52,7 @@
 		expired = now.isAfter(end_time_hk)
 		in_progress = now.isBetween(start_time_hk, end_time_hk)
 		within_hour = start_time_hk.diff(now, 'minute') <= 60
-		within_5_min = start_time_hk.diff(now, 'minute') <= 5
+		within_5_min = start_time_hk.diff(now, 'minute') <= 3
 		not_yet_started = now.isBefore(start_time_hk)
 	}
 
@@ -70,37 +70,37 @@
 </script>
 
 <div class="rounded bg-white border border-gray-300 overflow-hidden">
-	<div class="{status_to_style[status]} flex px-4 h-8 items-center">
+	<div class="{status_to_style[status]} flex px-4 h-8 items-center text">
 		{#if not_set}
 			<p class="text-xs font-bold uppercase">No date</p>
 			<p class="text-xxs ml-2">Your tutor have not set the class time</p>
 		{:else if expired}
-			<p class="text-xs font-bold uppercase">Class completed</p>
+			<p class="text-xs font-bold uppercase">課堂已完成</p>
 		{:else if not_yet_started}
 			{#if within_hour}
 				<div class="inline-flex items-center">
 					<Icon name="stopwatch" className="w-5"/>
-					<p class="text-sm ml-1 leading-none">{min_diff} Minutes to start</p>
+					<p class="text-sm ml-1 leading-none">{min_diff}分鐘後開始</p>
 				</div>
 			{:else if is_today}
 				<div class="inline-flex items-center">
 					<Icon name="stopwatch" className="w-5"/>
-					<p class="text-sm ml-1 leading-none">{hour_diff} Hours to start</p>
+					<p class="text-sm ml-1 leading-none">{hour_diff}小時後開始</p>
 				</div>
 			{:else}
 				<div class="inline-flex items-center">
 					<Icon name="stopwatch" className="w-5"/>
-					<p class="text-sm ml-1 leading-none">{day_diff} Days to start</p>
+					<p class="text-sm ml-1 leading-none">{day_diff}天後開始</p>
 				</div>
 			{/if}
 		{:else if in_progress}
-			<p class="text-xs font-bold uppercase">In progress</p>
+			<p class="text-xs font-bold uppercase">進行中</p>
 		{/if}
 	</div>
 	<div class="p-4">
 		<div class="mb-0.5">
 			<p class="text-lg leading-tight text-black">{z.title || 'No title'}</p>
-			<p class="text text-blue-500">Teacher: {z.teacher_nickname}</p>
+			<p class="text text-blue-500">老師: {z.teacher_nickname}</p>
 		</div>
 		{#if classroom_type_display}
 			<div class="mb-2">
@@ -114,18 +114,18 @@
 			</div>
 			<div class="flex items-center ml-4">
 				<Icon name="stopwatch" className="text-gray-500 w-5"/>
-				<div class="ml-1 text-sm">{z.duration} minutes</div>
+				<div class="ml-1 text-sm">{z.duration}分鐘</div>
 			</div>
 		</div>
-		{#if zoom_button_active}
-			<a on:click={() => {sentry.log('User clicked zoom link')}} target="_blank" href={z.zoom_link} class="block bg-blue-500 hover:bg-blue-700 text-white mt-4 text-center px-12 py-2 rounded font-bold w-full">
-				<p>Join the class now</p>
+		{#if zoom_button_active && !expired}
+			<a on:click={() => {sentry.log(`User clicked zoom link: + ${z.zoom_link}`)}} target="_blank" href={z.zoom_link} class="block bg-blue-500 hover:bg-blue-700 text-white mt-4 text-center px-12 py-2 rounded font-bold w-full">
+				進入課堂
 			</a>
-		{:else if is_today}
+			<a on:click={() => {sentry.log(`User clicked zoom link: + ${z.zoom_link}`)}} href={z.zoom_link} class="block text-xs leading-tight mt-2 text-gray-500 hover:text-blue-500">{z.zoom_link}</a>
+		{:else if is_today && !expired}
 			<div class="mt-4">
 				<button disabled class="bg-gray-100 text-gray-400 text-center px-2 py-2 rounded w-full">
-					Classroom opens in
-					<span class="font-bold border-b-2 border-current">{min_diff - 5}</span> minutes
+					課堂連結將於<span class="font-bold border-b-2 border-current">{min_diff - 3}</span>分鐘後開啟
 				</button>
 			</div>
 		{/if}

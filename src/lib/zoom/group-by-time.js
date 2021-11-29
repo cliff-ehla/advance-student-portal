@@ -10,8 +10,6 @@ export const groupByTime = list => {
 	const today_list = []
 	const in_a_week_list = []
 	const future_list = []
-	// const expired_list = [] <- this will not be shown and not needed
-	const not_set_list = []
 	const now = dayjs(new Date())
 	list.forEach(z => {
 		const start = dayjs(z.start_date)
@@ -20,9 +18,7 @@ export const groupByTime = list => {
 		const day_diff = start.diff(now, 'day')
 		const in_a_week = is_tomorrow || (day_diff >= 1 && day_diff <= 7)
 		const is_future = day_diff > 7
-		if (!z.start_date) {
-			not_set_list.push(z)
-		} else if (is_today) {
+		if (is_today) {
 			today_list.push(z)
 		} else if (in_a_week) {
 			in_a_week_list.push(z)
@@ -32,20 +28,16 @@ export const groupByTime = list => {
 	})
 	return [
 		{
-			title: 'Today',
+			title: '今天',
 			zoom_list: today_list
 		},
 		{
-			title: 'This week',
+			title: '本星期',
 			zoom_list: in_a_week_list
 		},
 		{
-			title: 'Future',
+			title: '下星期及後',
 			zoom_list: future_list
-		},
-		{
-			title: 'Not set',
-			zoom_list: not_set_list
 		}
 	]
 }
