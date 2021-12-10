@@ -15,7 +15,6 @@
 <script>
 	import {http} from "$lib/http";
 	import {goto} from '$app/navigation'
-	import Icon from '$lib/ui/icon.svelte'
 	import {getStores} from "$app/stores";
 	import {sentry} from "$lib/sentry";
 
@@ -90,9 +89,5 @@
 <style>
     input {
         @apply border border-gray-300 py-3 px-4 rounded;
-    }
-    .bg2 {
-		    background-position: -40% 0;
-		    background-repeat: no-repeat;
     }
 </style>
