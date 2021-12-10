@@ -54,34 +54,31 @@
 </script>
 
 
-<div class="p-2 bg-white">
-	<img src="/logo.png" alt="logo" class="w-12 mx-auto">
-</div>
-
-<div class="md:py-12 md:px-8">
-	<div class="max-w-screen-sm mx-auto bg-white md:rounded-lg py-8 md:py-16 px-4 md:px-36 md:border md:border-gray-300">
+<div class="bg-left-bottom md:bg-left max-w-screen-xl mx-auto bg-no-repeat bg-contain fixed inset-0" style="background-image: url('/login-bg.jpg')"></div>
+<div class="fixed left-0 md:left-1/3 lg:left-1/2 right-0 inset-y-0 flex items-center justify-center md:p-4 lg:p-8">
+	<div class="px-8 sm:px-20 py-16 bg-white bg-opacity-90 border border-gray-300 rounded-lg shadow-lg">
+		<div class="flex justify-center mb-4">
+			<div class="w-16 h-16">
+				<img src="/logo.png" alt="logo" class="w-16">
+			</div>
+		</div>
+		<h1 class="font-bold mb-8 text-xl text-center text-gray-500">學生網上課堂登入</h1>
+		<div class="mb-4">
+			<input on:input={() => {error = false}} type="text" placeholder="賬戶名稱" class="form-input w-full bg-gray-50" bind:value={username}>
+		</div>
 		<div>
-			<h1 class="font-bold mb-8 text-xl text-center text-gray-500">學生網上課堂登入</h1>
-			<div class="w-32 h-32 mb-8 border border-gray-300 rounded-full mx-auto flex items-center justify-center">
-				<Icon name="avatar" className="w-20 text-gray-300"/>
-			</div>
-			<div class="mb-4">
-				<input on:input={() => {error = false}} type="text" placeholder="賬戶名稱" class="form-input w-full bg-gray-50" bind:value={username}>
-			</div>
-			<div>
-				<input on:input={() => {error = false}} type="password" placeholder="密碼" class="form-input w-full bg-gray-50" bind:value={password}>
-			</div>
-			{#if error}
-				<p class="text-red-500 py-2">賬戶名稱與密碼不符合</p>
-			{/if}
-			<div class="mt-6">
-				<button on:click={onLogin} class="{loading ? 'bg-gray-300 text-white' : 'bg-blue-500 text-white'} w-full font-bold rounded py-3 px-8">登入</button>
-			</div>
-			<div class="mt-8">
-				<p class="text-xs text-gray-500 text-center">
-					若登入時遇到因難，請與我們的客服聯絡 <b>5578 0218</b>
-				</p>
-			</div>
+			<input on:input={() => {error = false}} type="password" placeholder="密碼" class="form-input w-full bg-gray-50" bind:value={password}>
+		</div>
+		{#if error}
+			<p class="text-red-500 py-2">賬戶名稱與密碼不符合</p>
+		{/if}
+		<div class="mt-6">
+			<button on:click={onLogin} class="{loading ? 'bg-gray-300 text-white' : 'bg-blue-500 text-white'} w-full font-bold rounded py-3 px-8">登入</button>
+		</div>
+		<div class="mt-8">
+			<p class="text-xs text-gray-500 text-center">
+				若登入時遇到因難，請與我們的客服聯絡 <b>5578 0218</b>
+			</p>
 		</div>
 	</div>
 </div>
@@ -93,5 +90,9 @@
 <style>
     input {
         @apply border border-gray-300 py-3 px-4 rounded;
+    }
+    .bg2 {
+		    background-position: -40% 0;
+		    background-repeat: no-repeat;
     }
 </style>
