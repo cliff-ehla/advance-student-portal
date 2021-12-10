@@ -54,9 +54,9 @@
 </script>
 
 
-<div class="bg-left-bottom md:bg-left max-w-screen-xl mx-auto bg-no-repeat bg-contain fixed inset-0" style="background-image: url('/login-bg.jpg')"></div>
-<div class="fixed left-0 md:left-1/3 lg:left-1/2 right-0 inset-y-0 flex items-center justify-center md:p-4 lg:p-8">
-	<div class="px-8 sm:px-20 py-16 bg-white bg-opacity-90 border border-gray-300 rounded-lg shadow-lg">
+<div class="transform translate-y-12 sm:translate-y-0 sm:-translate-x-48 bg-left-bottom md:bg-left max-w-screen-xl mx-auto bg-no-repeat bg-contain fixed inset-0" style="background-image: url('/login-bg.jpg')"></div>
+<div class="fixed left-0 md:left-1/3 lg:left-1/2 right-0 inset-y-0 flex sm:items-center justify-center md:p-4 lg:p-8">
+	<div class="px-8 sm:px-20 py-8 sm:py-16 sm:bg-white bg-opacity-90 sm:border sm:border-gray-300 rounded-lg sm:shadow-lg">
 		<div class="flex justify-center mb-4">
 			<div class="w-16 h-16">
 				<img src="/logo.png" alt="logo" class="w-16">
