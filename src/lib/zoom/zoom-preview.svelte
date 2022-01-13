@@ -118,17 +118,19 @@
 				<div class="ml-1 text-sm">{z.duration}分鐘</div>
 			</div>
 		</div>
-		{#if zoom_button_active && !expired}
-			<a on:click={() => {slack.send(`Clicked zoom link ${z.zoom_link}`)}} target="_blank" href={z.zoom_link} class="block bg-blue-500 hover:bg-blue-700 text-white mt-4 text-center px-12 py-2 rounded font-bold w-full">
-				進入課堂
-			</a>
-			<a on:click={() => {slack.send(`Clicked zoom link ${z.zoom_link}`)}} href={z.zoom_link} class="block text-xs leading-tight mt-2 text-gray-500 hover:text-blue-500">{z.zoom_link}</a>
-		{:else if is_today && !expired}
-			<div class="mt-4">
-				<button disabled class="bg-gray-100 text-gray-400 text-center px-2 py-2 rounded w-full">
-					課堂連結將於<span class="font-bold border-b-2 border-current">{min_diff - 3}</span>分鐘後開啟
-				</button>
-			</div>
+		{#if within_hour}
+			{#if zoom_button_active && !expired}
+				<a on:click={() => {slack.send(`Clicked zoom link ${z.zoom_link}`)}} target="_blank" href={z.zoom_link} class="block bg-blue-500 hover:bg-blue-700 text-white mt-4 text-center px-12 py-2 rounded font-bold w-full">
+					進入課堂
+				</a>
+				<a on:click={() => {slack.send(`Clicked zoom link ${z.zoom_link}`)}} href={z.zoom_link} class="block text-xs leading-tight mt-2 text-gray-500 hover:text-blue-500">{z.zoom_link}</a>
+			{:else if is_today && !expired}
+				<div class="mt-4">
+					<button disabled class="bg-gray-100 text-gray-400 text-center px-2 py-2 rounded w-full">
+						課堂連結將於<span class="font-bold border-b-2 border-current">{min_diff - 3}</span>分鐘後開啟
+					</button>
+				</div>
+			{/if}
 		{/if}
 	</div>
 </div>
