@@ -1,22 +1,9 @@
-<script context="module">
-	export const prerender = true;
-	export const load = ({session}) => {
-		// TODO I cannot delete the access token
-		// if (session.access_token) {
-		// 	return {
-		// 		redirect: '/',
-		// 		status: 302
-		// 	}
-		// }
-		return true
-	}
-</script>
-
 <script>
 	import {http} from "$lib/http";
 	import {goto} from '$app/navigation'
 	import {getStores} from "$app/stores";
 	import {sentry} from "$lib/sentry";
+	import {user_info} from "$lib/store/user_info.js";
 
 	let env = import.meta.env.VITE_ENV
 	const {session} = getStores()
@@ -39,6 +26,10 @@
 					username: data.username,
 					nickname: data.nickname
 				}
+			})
+			user_info.set({
+				username: data.username,
+				nickname: data.nickname
 			})
 			sentry.setUser({
 				username: data.username,

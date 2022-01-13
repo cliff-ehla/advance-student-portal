@@ -1,10 +1,8 @@
 <script context="module">
+	import {user_info} from "$lib/store/user_info.js";
 	export const load = ({session}) => {
-		return {
-			props: {
-				user_info: session.user_info
-			}
-		}
+		user_info.set(session.user_info)
+		return true
 	}
 </script>
 
@@ -17,15 +15,13 @@
 	import {page} from '$app/stores'
 	import {onMount} from 'svelte'
 
-	export let user_info
-
 	onMount(() => {
 		sentry.init()
 	})
 </script>
 
 {#if $page.path !== '/login'}
-	<Header {user_info}/>
+	<Header/>
 {/if}
 
 <main class="bg-gray-100">
