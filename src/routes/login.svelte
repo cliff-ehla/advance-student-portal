@@ -20,7 +20,11 @@
 			username,
 			password
 		})
-		if (success) {
+		if (data.userGroup.id === '4') {
+			loading = false
+			error = '你輸入的是家長賬號 ，請以學生賬號登入'
+			return console.log('parent')
+		} else if (success) {
 			session.set({
 				user_info: {
 					username: data.username,
@@ -38,7 +42,7 @@
 			goto('/')
 		} else {
 			loading = false
-			error = true
+			error = '賬戶名稱與密碼不符合'
 		}
 	}
 </script>
@@ -60,7 +64,7 @@
 			<input on:input={() => {error = false}} type="password" placeholder="密碼" class="form-input w-full bg-gray-50" bind:value={password}>
 		</div>
 		{#if error}
-			<p class="text-red-500 py-2">賬戶名稱與密碼不符合</p>
+			<p class="text-red-500 py-2">{error}</p>
 		{/if}
 		<div class="mt-6">
 			<button on:click={onLogin} class="{loading ? 'bg-gray-300 text-white' : 'bg-blue-500 text-white'} w-full font-bold rounded py-3 px-8">登入</button>
@@ -74,7 +78,7 @@
 </div>
 
 <svelte:head>
-	<title>Login | EHLA Zoom class</title>
+	<title>EHLA Zoom class</title>
 </svelte:head>
 
 <style>
