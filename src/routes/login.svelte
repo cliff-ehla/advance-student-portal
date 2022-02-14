@@ -20,11 +20,12 @@
 			username,
 			password
 		})
-		if (data.userGroup.id === '4') {
-			loading = false
-			error = '你輸入的是家長賬號 ，請以學生賬號登入'
-			return console.log('parent')
-		} else if (success) {
+		if (success) {
+			if (data.userGroup.id === '4') {
+				loading = false
+				error = '你輸入的是家長賬號，請以學生賬號登入'
+				return
+			}
 			session.set({
 				user_info: {
 					username: data.username,
