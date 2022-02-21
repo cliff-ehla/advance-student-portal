@@ -2,6 +2,7 @@ import {usermodel} from "$lib/usermodal";
 import cookie from "cookie";
 
 export const post = async (req) => {
+	req.locals.access_token = null
 	const res = await usermodel(req, '/userApi/login', {
 		username: req.body.username,
 		password: req.body.password
