@@ -132,5 +132,10 @@
 				</div>
 			{/if}
 		{/if}
+		{#if z.homeworks}
+			{#each z.homeworks as h}
+				<p>{h.title}</p>
+			{/each}
+		{/if}
 	</div>
 </div>
