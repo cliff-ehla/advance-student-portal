@@ -134,7 +134,7 @@
 				</div>
 			{/if}
 		{/if}
-		{#if z.homeworks}
+		{#if z.homeworks && expired}
 			<div class="mt-2 bg-blue-50 inline-block p-1 rounded">
 				<p class="text-sm text-gray-500">下載附件</p>
 				<div class="">
