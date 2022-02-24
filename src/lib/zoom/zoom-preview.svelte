@@ -37,6 +37,10 @@
 	$: classroom_type = z.big_classroom_type
 	$: classroom_type_display = ['BIG','UNLIMITED'].includes(classroom_type) ? '大班課' : classroom_type === 'SMALL' ? '小班課' : ''
 
+	$: {
+		if (z) update()
+	}
+
 	const status_to_style = {
 		'not_set': 'bg-blue-100 text-red-500',
 		'expired': 'bg-gray-200 text-gray-400',
@@ -59,7 +63,6 @@
 
 	onMount(() => {
 		let timer_id
-		update()
 		if (is_today) {
 			hour_diff = start.diff(now, 'hour')
 			timer_id = setInterval(update, 1000)
