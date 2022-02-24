@@ -111,7 +111,7 @@
 		<div class="flex">
 			<div class="flex items-center">
 				<Icon name="calendar" className="text-gray-500 w-6"/>
-				<div class="ml-1 text-sm">{start_time_hk.format('MMM D, h:mm A')}</div>
+				<div class="ml-1 text-sm">{start_time_hk.format('LLL')}</div>
 			</div>
 			<div class="flex items-center ml-4">
 				<Icon name="stopwatch" className="text-gray-500 w-5"/>

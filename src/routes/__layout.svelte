@@ -14,6 +14,7 @@
 	import '../styles/tailwind-output.css';
 	import {page} from '$app/stores'
 	import {onMount} from 'svelte'
+	import '$lib/app-shelf/dayhs-setting.js'
 
 	onMount(() => {
 		sentry.init()
