@@ -24,7 +24,7 @@
 	<Header/>
 {/if}
 
-<main class="bg-gray-100">
+<main class="bg-gray-50">
 	{#if $navigating}
 		<div class="fixed inset-x-0 top-0 z-50">
 			<LoadingBar/>
