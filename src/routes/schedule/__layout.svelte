@@ -30,14 +30,6 @@
 			{/if}
 		</div>
 	</div>
-	<div class="ml-auto flex items-center text-gray-500">
-		<a use:tooltip={'Month view'} href="/schedule/{dayjs().format('YYYY-MM-DD')}/month" class:active={slug === 'month'} class="calendar-button ml-1">
-			<Icon name="month"/>
-		</a>
-		<a use:tooltip={'Schedule view'} href="/schedule/{dayjs().format('YYYY-MM-DD')}/list" class:active={slug  === 'list'} class="calendar-button ml-1">
-			<svg viewBox="0 0 36 36" class="fill-current w-5"><path d="M11 14h25v8H11zM0 25h8v7H0zM11 25h25v7H11zM11 4h25v7H11zM0 4h8v7H0zM0 14h8v8H0z"></path></svg>
-		</a>
-	</div>
 </div>
 
 <slot/>

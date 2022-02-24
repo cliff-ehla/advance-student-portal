@@ -35,7 +35,7 @@
 	$: end_time_hk = start_time_hk ? start_time_hk.add(z.duration, 'minutes') : null
 
 	$: classroom_type = z.big_classroom_type
-	$: classroom_type_display = ['BIG','UNLIMITED'].includes(classroom_type) ? 'Big class' : classroom_type === 'SMALL' ? 'Small class' : ''
+	$: classroom_type_display = ['BIG','UNLIMITED'].includes(classroom_type) ? '大班課' : classroom_type === 'SMALL' ? '小班課' : ''
 
 	const status_to_style = {
 		'not_set': 'bg-blue-100 text-red-500',
@@ -101,21 +101,23 @@
 	<div class="p-4">
 		<div class="mb-0.5">
 			<p class="text-lg leading-tight text-black">{z.title || 'No title'}</p>
-			<p class="text text-blue-500">老師: {z.teacher_nickname}</p>
-		</div>
-		{#if classroom_type_display}
-			<div class="mb-2">
-				<p class="text-gray-500 text-sm">{classroom_type_display}</p>
+			<div class="flex items-center text-gray-500 my-1">
+				<p class="text-sm">老師: {z.teacher_nickname}</p>
+				{#if classroom_type_display}
+					<div class="ml-2">
+						<p class="{classroom_type_display === '小班課' ? 'bg-purple-500' : 'bg-blue-700'} rounded-full text-white text-xs px-2">{classroom_type_display}</p>
+					</div>
+				{/if}
 			</div>
-		{/if}
-		<div class="flex">
+		</div>
+		<div class="flex mt-2">
 			<div class="flex items-center">
-				<Icon name="calendar" className="text-gray-500 w-6"/>
-				<div class="ml-1 text-sm">{start_time_hk.format('LLL')}</div>
+				<Icon name="calendar" className="text-gray-400 w-6"/>
+				<div class="ml-1 text-sm text-gray-500">{start_time_hk.format('LLL')}</div>
 			</div>
 			<div class="flex items-center ml-4">
-				<Icon name="stopwatch" className="text-gray-500 w-5"/>
-				<div class="ml-1 text-sm">{z.duration}分鐘</div>
+				<Icon name="stopwatch" className="text-gray-400 w-5"/>
+				<div class="ml-1 text-sm text-gray-500">{z.duration}分鐘</div>
 			</div>
 		</div>
 		{#if within_hour}
@@ -133,9 +135,17 @@
 			{/if}
 		{/if}
 		{#if z.homeworks}
-			{#each z.homeworks as h}
-				<p>{h.title}</p>
-			{/each}
+			<div class="mt-2 bg-blue-50 inline-block p-1 rounded">
+				<p class="text-sm text-gray-500">下載附件</p>
+				<div class="">
+					{#each z.homeworks as h,i}
+						<div class="flex items-center">
+							<p class="text-sm text-blue-500">{i + 1}.</p>
+							<a class="ml-2 leading-tight text-sm text-blue-500 hover:underline" target="_blank" href={h.link}>{h.title}</a>
+						</div>
+					{/each}
+				</div>
+			</div>
 		{/if}
 	</div>
 </div>

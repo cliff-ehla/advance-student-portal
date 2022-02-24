@@ -52,16 +52,18 @@
 
 </script>
 
-{#each zoom_list_by_date as date}
-	<div data-date={dayjs(date.date).format('YYYY-MM-DD')} class="transition-colors duration-1000 flex items-start">
-		<div class="w-40 px-2 flex items-center">
-			<div class:active={dayjs(date.date).isToday()} class="rounded-full w-10 h-10 cc mr-2">{dayjs(date.date).format('D')}</div>
-			<p class="text-xs uppercase mt-0.5">{dayjs(date.date).format('MMM, ddd')}</p>
+<div class="max-w-screen-lg mx-auto">
+	{#each zoom_list_by_date as date}
+		<div data-date={dayjs(date.date).format('YYYY-MM-DD')} class="transition-colors duration-1000 flex items-start">
+			<div class="w-40 px-2 flex items-center">
+				<div class:active={dayjs(date.date).isToday()} class="rounded-full w-10 h-10 cc mr-2">{dayjs(date.date).format('D')}</div>
+				<p class="text-xs uppercase mt-0.5">{dayjs(date.date).format('MMM, ddd')}</p>
+			</div>
+			<div class="w-full p-2">
+				{#each date.zoom_list as z}
+					<ZoomPreview {z}/>
+				{/each}
+			</div>
 		</div>
-		<div class="w-full p-2">
-			{#each date.zoom_list as z}
-				<ZoomPreview {z}/>
-			{/each}
-		</div>
-	</div>
-{/each}
+	{/each}
+</div>
