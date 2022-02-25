@@ -18,8 +18,6 @@
 
 	const start = dayjs(z.start_date)
 	let now = dayjs(new Date())
-	const not_set = !z.start_date
-	const day_diff = start.diff(now, 'day')
 	const is_today = start.isToday()
 
 	let in_progress
@@ -28,10 +26,9 @@
 	let hour_diff
 	let min_diff
 	let within_hour
-	let within_5_min
+	let within_3_min
 
-	$: status = not_set ? 'not_set' : expired ? 'expired' : in_progress ? 'in_progress' : within_hour ? 'in_hour' : is_today ? 'today' : 'coming_soon'
-	$: zoom_button_active = (within_5_min || in_progress)
+	$: zoom_button_active = (within_3_min || in_progress)
 
 	$: start_time_hk = dayjs.utc(z.start_date).tz('Asia/Hong_Kong')
 	$: end_time_hk = start_time_hk ? start_time_hk.add(z.duration, 'minutes') : null
@@ -43,15 +40,6 @@
 		if (z) update()
 	}
 
-	const status_to_style = {
-		'not_set': 'bg-blue-100 text-red-500',
-		'expired': 'bg-gray-200 text-gray-400',
-		'in_progress': 'bg-yellow-600 text-white',
-		'in_hour': 'bg-green-500 text-white',
-		'today': 'bg-green-500 text-white',
-		'coming_soon': 'bg-blue-100 text-blue-500'
-	}
-
 	const update = () => {
 		now = dayjs()
 		hour_diff = start_time_hk.diff(now, 'hour')
@@ -59,7 +47,7 @@
 		expired = now.isAfter(end_time_hk)
 		in_progress = now.isBetween(start_time_hk, end_time_hk)
 		within_hour = start_time_hk.diff(now, 'minute') <= 60
-		within_5_min = start_time_hk.diff(now, 'minute') <= 3
+		within_3_min = start_time_hk.diff(now, 'minute') <= 3
 		not_yet_started = now.isBefore(start_time_hk)
 	}
 
@@ -76,14 +64,16 @@
 </script>
 
 <div class="rounded bg-white border border-gray-300 overflow-hidden">
-
-	<div class="{status_to_style[status]} text-white flex px-4 h-8 items-center text">
+	<div class="{expired ? 'bg-gray-300' : in_progress ? 'bg-yellow-500' : is_today ? 'bg-green-500' : 'bg-blue-300'} text-white flex px-4 h-8 items-center text">
 		<div class="inline-flex items-center">
 			<Icon name="stopwatch" className="w-4"/>
 			<p class="ml-1 text-sm">
-				{dayjs(start_time_hk).fromNow()}
 				{#if !expired}
-					開始
+					課堂將於{dayjs(start_time_hk).fromNow()}開始
+				{:else if in_progress}
+					課堂進行中
+				{:else}
+					課堂已完結
 				{/if}
 			</p>
 		</div>
@@ -111,16 +101,20 @@
 				<div class="ml-1 text-sm text-gray-500">{z.duration}分鐘</div>
 			</div>
 		</div>
-		{#if within_hour}
+		{#if is_today && !expired}
 			{#if zoom_button_active && !expired}
 				<a on:click={() => {slack.send(`Clicked zoom link ${z.zoom_link}`)}} target="_blank" href={z.zoom_link} class="block bg-blue-500 hover:bg-blue-700 text-white mt-4 text-center px-12 py-2 rounded font-bold w-full">
 					進入課堂
 				</a>
-				<a on:click={() => {slack.send(`Clicked zoom link ${z.zoom_link}`)}} href={z.zoom_link} class="block text-xs leading-tight mt-2 text-gray-500 hover:text-blue-500">{z.zoom_link}</a>
-			{:else if is_today && !expired}
+<!--				<a on:click={() => {slack.send(`Clicked zoom link ${z.zoom_link}`)}} href={z.zoom_link} class="block text-xs leading-tight mt-2 text-gray-500 hover:text-blue-500">{z.zoom_link}</a>-->
+			{:else}
 				<div class="mt-4">
-					<button disabled class="bg-gray-100 text-gray-400 text-center px-2 py-2 rounded w-full">
-						課堂連結將於<span class="font-bold border-b-2 border-current">{min_diff - 3}</span>分鐘後開啟
+					<button disabled class="cursor-not-allowed bg-gray-200 text-gray-400 text-center px-2 py-2 rounded w-full">
+						{#if within_hour}
+							課堂連結將於<span class="font-bold border-b-2 border-current">{min_diff - 3}</span>分鐘後開啟
+						{:else}
+							課堂連結將會於開課前3分鐘開啟
+						{/if}
 					</button>
 				</div>
 			{/if}
