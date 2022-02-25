@@ -31,6 +31,12 @@
 	dayjs.extend(isBetween)
 	$: date_key = `${$page.params.yyyy}-${$page.params.mm}-${$page.params.dd}`
 	$: zoom_list_by_date = date_key ? groupByDate(zoom_list) : []
+	$: reload = $page.query.get('reload')
+	$: {
+		if (reload) {
+			scrollToDate()
+		}
+	}
 	const groupByDate = (zoom_list) => {
 		let results = []
 		zoom_list.forEach(z => {
