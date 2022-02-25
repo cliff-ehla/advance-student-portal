@@ -2,12 +2,14 @@
 	import utc from "dayjs/plugin/utc.js"
 	import timezone from "dayjs/plugin/timezone.js"
 	import isBetween from 'dayjs/plugin/isBetween.js'
+	import relativeTime from "dayjs/plugin/relativeTime";
 	import dayjs from 'dayjs'
 	import {sentry} from "$lib/sentry";
 
 	dayjs.extend(isBetween)
 	dayjs.extend(utc)
 	dayjs.extend(timezone)
+	dayjs.extend(relativeTime)
 
 	export let z
 	import Icon from '$lib/ui/icon.svelte'
@@ -74,33 +76,19 @@
 </script>
 
 <div class="rounded bg-white border border-gray-300 overflow-hidden">
-	<div class="{status_to_style[status]} flex px-4 h-8 items-center text">
-		{#if not_set}
-			<p class="text-xs font-bold uppercase">No date</p>
-			<p class="text-xxs ml-2">Your tutor have not set the class time</p>
-		{:else if expired}
-			<p class="text-xs font-bold uppercase">課堂已完成</p>
-		{:else if not_yet_started}
-			{#if within_hour}
-				<div class="inline-flex items-center">
-					<Icon name="stopwatch" className="w-5"/>
-					<p class="text-sm ml-1 leading-none">{min_diff}分鐘後開始</p>
-				</div>
-			{:else if is_today}
-				<div class="inline-flex items-center">
-					<Icon name="stopwatch" className="w-5"/>
-					<p class="text-sm ml-1 leading-none">{hour_diff}小時後開始</p>
-				</div>
-			{:else}
-				<div class="inline-flex items-center">
-					<Icon name="stopwatch" className="w-5"/>
-					<p class="text-sm ml-1 leading-none">{day_diff}天後開始</p>
-				</div>
-			{/if}
-		{:else if in_progress}
-			<p class="text-xs font-bold uppercase">進行中</p>
-		{/if}
+
+	<div class="{status_to_style[status]} text-white flex px-4 h-8 items-center text">
+		<div class="inline-flex items-center">
+			<Icon name="stopwatch" className="w-4"/>
+			<p class="ml-1 text-sm">
+				{dayjs(start_time_hk).fromNow()}
+				{#if !expired}
+					開始
+				{/if}
+			</p>
+		</div>
 	</div>
+
 	<div class="p-4">
 		<div class="mb-0.5">
 			<p class="text-lg leading-tight text-black">{z.title || 'No title'}</p>

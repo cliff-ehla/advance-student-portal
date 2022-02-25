@@ -13,7 +13,7 @@
 
 <div class="px-4 flex h-12 items-center border-b border-gray-300 sticky top-14 bg-white z-10">
 	<div class="flex items-center font-light">
-		<a href="/schedule/{dayjs().format('YYYY-MM-DD')}/{slug}" class="calendar-button">Today</a>
+		<a href="/schedule/{dayjs().format('YYYY-MM-DD')}/{slug}" class="calendar-button">今天</a>
 		<div class="flex mx-2">
 			<a href="/schedule/{dayjs(date_key).subtract(1,nav_key).format('YYYY-MM-DD')}/{slug}" class="block cc w-8 h-8 rounded-full hover:bg-gray-200 transition-colors">
 				<Icon name="right" className="w-3 transform rotate-180"/>
