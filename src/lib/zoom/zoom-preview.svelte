@@ -28,8 +28,6 @@
 	let within_hour
 	let within_3_min
 
-	$: zoom_button_active = (within_3_min || in_progress)
-
 	$: start_time_hk = dayjs.utc(z.start_date).tz('Asia/Hong_Kong')
 	$: end_time_hk = start_time_hk ? start_time_hk.add(z.duration, 'minutes') : null
 
@@ -68,12 +66,12 @@
 		<div class="inline-flex items-center">
 			<Icon name="stopwatch" className="w-4"/>
 			<p class="ml-1 text-sm">
-				{#if !expired}
-					課堂將於{dayjs(start_time_hk).fromNow()}開始
+				{#if expired}
+					課堂已完結
 				{:else if in_progress}
 					課堂進行中
 				{:else}
-					課堂已完結
+					課堂將於{dayjs(start_time_hk).fromNow()}開始
 				{/if}
 			</p>
 		</div>
@@ -102,11 +100,10 @@
 			</div>
 		</div>
 		{#if is_today && !expired}
-			{#if zoom_button_active && !expired}
+			{#if within_3_min || in_progress}
 				<a on:click={() => {slack.send(`Clicked zoom link ${z.zoom_link}`)}} target="_blank" href={z.zoom_link} class="block bg-blue-500 hover:bg-blue-700 text-white mt-4 text-center px-12 py-2 rounded font-bold w-full">
 					進入課堂
 				</a>
-<!--				<a on:click={() => {slack.send(`Clicked zoom link ${z.zoom_link}`)}} href={z.zoom_link} class="block text-xs leading-tight mt-2 text-gray-500 hover:text-blue-500">{z.zoom_link}</a>-->
 			{:else}
 				<div class="mt-4">
 					<button disabled class="cursor-not-allowed bg-gray-200 text-gray-400 text-center px-2 py-2 rounded w-full">
