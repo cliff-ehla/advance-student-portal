@@ -25,6 +25,8 @@
 	import isBetween from "dayjs/plugin/isBetween.js";
 	import ZoomPreview from '$lib/zoom/zoom-preview.svelte'
 	import * as animateScroll from "svelte-scrollto";
+	import {browser} from "$app/env";
+	import {onMount} from "svelte";
 
 	export let zoom_list
 	dayjs.extend(isToday)
@@ -33,10 +35,13 @@
 	$: zoom_list_by_date = date_key ? groupByDate(zoom_list) : []
 	$: reload = $page.query.get('reload')
 	$: {
-		if (reload) {
+		if (reload && browser) {
 			scrollToDate()
 		}
 	}
+	onMount(() => {
+		scrollToDate()
+	})
 	const groupByDate = (zoom_list) => {
 		let results = []
 		zoom_list.forEach(z => {
@@ -62,7 +67,7 @@
 			element: `[data-date="${date_key}"]`,
 			offset: -48,
 			onDone: (el) => {
-				if (!el) return console.log('no element')
+				if (!el) return
 				el.classList.add('bg-yellow-500')
 				setTimeout(() => {
 					el.classList.remove('bg-yellow-500')
@@ -76,7 +81,7 @@
 <div class="max-w-screen-lg mx-auto">
 	{#if zoom_list_by_date.length}
 		{#each zoom_list_by_date as date}
-			<div use:scrollToDate data-date={dayjs(date.date).format('YYYY-MM-DD')} class="transition-colors duration-1000 flex items-start">
+			<div data-date={dayjs(date.date).format('YYYY-MM-DD')} class="transition-colors duration-1000 flex items-start">
 				<div class="w-40 px-2 flex items-center">
 					<div class:active={dayjs(date.date).isToday()} class="rounded-full w-10 h-10 cc mr-2">{dayjs(date.date).format('D')}</div>
 					<p class="text-xs uppercase mt-0.5">{dayjs(date.date).format('MMM, ddd')}</p>
