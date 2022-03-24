@@ -35,8 +35,8 @@
 	$: zoom_list_by_date = date_key ? groupByDate(zoom_list) : []
 	$: reload = $page.query.get('reload')
 	$: {
-		if (reload && browser) {
-			scrollToDate()
+		if (browser && (date_key || reload)) {
+			setTimeout(scrollToDate, 1)
 		}
 	}
 	onMount(() => {
@@ -63,8 +63,9 @@
 	}
 
 	const scrollToDate = () => {
+		const today_key = dayjs().format('YYYY-MM-DD')
 		animateScroll.scrollTo({
-			element: `[data-date="${date_key}"]`,
+			element: `[data-date="${today_key}"]`,
 			offset: -48,
 			onDone: (el) => {
 				if (!el) return
