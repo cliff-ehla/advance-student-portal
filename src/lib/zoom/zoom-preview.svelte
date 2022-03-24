@@ -4,7 +4,6 @@
 	import isBetween from 'dayjs/plugin/isBetween.js'
 	import relativeTime from "dayjs/plugin/relativeTime";
 	import dayjs from 'dayjs'
-	import {sentry} from "$lib/sentry";
 
 	dayjs.extend(isBetween)
 	dayjs.extend(utc)
@@ -27,6 +26,7 @@
 	let min_diff
 	let within_hour
 	let within_3_min
+	let is_show_homework
 
 	$: start_time_hk = dayjs.utc(z.start_date).tz('Asia/Hong_Kong')
 	$: end_time_hk = start_time_hk ? start_time_hk.add(z.duration, 'minutes') : null
@@ -47,6 +47,7 @@
 		within_hour = start_time_hk.diff(now, 'minute') <= 60
 		within_3_min = start_time_hk.diff(now, 'minute') <= 3
 		not_yet_started = now.isBefore(start_time_hk)
+		is_show_homework = start_time_hk.diff(now, 'day') <= 1
 	}
 
 	onMount(() => {
@@ -116,7 +117,7 @@
 				</div>
 			{/if}
 		{/if}
-		{#if z.homeworks && expired}
+		{#if z.homeworks && is_show_homework}
 			<div class="mt-2 bg-blue-50 inline-block p-1 rounded">
 				<p class="text-sm text-gray-500">下載附件</p>
 				<div class="">
