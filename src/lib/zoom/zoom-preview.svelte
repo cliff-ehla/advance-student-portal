@@ -15,14 +15,10 @@
 	import {onMount} from 'svelte'
 	import {slack} from "$lib/slack";
 
-	const start = dayjs(z.start_date)
 	let now = dayjs(new Date())
-	const is_today = start.isToday()
-
 	let in_progress
 	let expired
 	let not_yet_started
-	let hour_diff
 	let min_diff
 	let within_hour
 	let within_3_min
@@ -30,6 +26,7 @@
 
 	$: start_time_hk = dayjs.utc(z.start_date).tz('Asia/Hong_Kong')
 	$: end_time_hk = start_time_hk ? start_time_hk.add(z.duration, 'minutes') : null
+	$: is_today = start_time_hk ? start_time_hk.isToday() : false
 
 	$: classroom_type = z.big_classroom_type
 	$: classroom_type_display = ['BIG','UNLIMITED'].includes(classroom_type) ? '大班課' : classroom_type === 'SMALL' ? '小班課' : ''
@@ -40,7 +37,6 @@
 
 	const update = () => {
 		now = dayjs()
-		hour_diff = start_time_hk.diff(now, 'hour')
 		min_diff = start_time_hk.diff(now, 'minute') % 60
 		expired = now.isAfter(end_time_hk)
 		in_progress = now.isBetween(start_time_hk, end_time_hk)
@@ -53,7 +49,6 @@
 	onMount(() => {
 		let timer_id
 		if (is_today) {
-			hour_diff = start.diff(now, 'hour')
 			timer_id = setInterval(update, 1000)
 		}
 		return () => {
